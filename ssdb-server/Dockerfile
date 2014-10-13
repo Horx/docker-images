@@ -1,10 +1,11 @@
 FROM ubuntu:14.04
-MAINTAINER Li Meng Jun "hanhor.wu@gmail.com"
+MAINTAINER HanHor "hanhor.wu@gmail.com"
 
 # Set the env variable DEBIAN_FRONTEND to noninteractive
 ENV DEBIAN_FRONTEND noninteractive
 
-# RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && apt-get update
+#RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
+RUN apt-get update
 RUN apt-get install -y --force-yes git make gcc g++ && apt-get clean
 
 RUN git clone --recursive -b stable-1.6.8.8 https://github.com/ideawu/ssdb.git ssdb
