@@ -1,0 +1,25 @@
+FROM ubuntu:14.04
+MAINTAINER Li Meng Jun "hanhor.wu@gmail.com"
+
+# Set the env variable DEBIAN_FRONTEND to noninteractive
+ENV DEBIAN_FRONTEND noninteractive
+
+# RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && apt-get update
+RUN apt-get install -y --force-yes git make gcc g++ && apt-get clean
+
+RUN git clone --recursive -b stable-1.6.8.8 https://github.com/ideawu/ssdb.git ssdb
+RUN cd ssdb && make && make install && cp ssdb-server /usr/bin && cp ssdb.conf /etc && cd .. && yes | rm -r ssdb
+
+RUN sed -e 's@home.*@home /var/lib@' -e 's/loglevel.*/loglevel info/' -i /etc/ssdb.conf
+RUN mkdir -p /var/lib/ssdb
+RUN sed -e 's@work_dir = .*@work_dir = /var/lib/ssdb@'\
+        -e 's@pidfile = .*@pidfile = /run/ssdb.pid@'\
+        -e 's@level:.*@level: info@'\
+        -e 's@ip:.*@ip: 0.0.0.0@'\
+        -e 's@port:.*@16379@'\
+        -i /etc/ssdb.conf
+
+ENV TZ Asia/Shanghai
+EXPOSE 16379
+VOLUME /var/lib/ssdb
+ENTRYPOINT /usr/bin/ssdb-server /etc/ssdb.conf
