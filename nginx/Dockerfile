@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install.
 RUN \
-  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
+  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
   apt-get update && \
   apt-get install -y software-properties-common && \
   add-apt-repository -y ppa:nginx/stable && \
