@@ -15,7 +15,7 @@ RUN \
   apt-get clean && \
   echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
   chown -R www-data:www-data /var/lib/nginx  &&\
-  rm /etc/ngins/sites-available/default
+  rm /etc/nginx/sites-available/default
 
 # Define mountable directories.
 VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/var/log/nginx"]
