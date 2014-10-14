@@ -6,15 +6,13 @@ ENV DEBIAN_FRONTEND noninteractive
 
 #RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
 
-RUN
-  apt-get update && \
+RUN apt-get update && \
   apt-get install -y --force-yes git make gcc g++ && apt-get clean && \
   git clone --recursive -b stable-1.6.8.8 https://github.com/ideawu/ssdb.git ssdb && \
   cd ssdb && make && make install && cp ssdb-server /usr/bin && cp ssdb.conf /etc && cd .. && yes | rm -r ssdb
 
-RUN
-  mkdir -p /var/lib/ssdb
-  sed
+RUN mkdir -p /var/lib/ssdb && \
+  sed \
     -e 's@home.*@home /var/lib@' \
     -e 's/loglevel.*/loglevel info/' \
     -e 's@work_dir = .*@work_dir = /var/lib/ssdb@' \
