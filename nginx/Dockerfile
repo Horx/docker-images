@@ -13,12 +13,14 @@ RUN \
   apt-get update && \
   apt-get install -y nginx && \
   apt-get clean && \
-  echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
+  sed -e 's@ndaemon *@ndaemon off@' && \
+  sed -e 's@access_log *@access_log off@' && \
+  sed -e 's@error_log *@error_log off@' && \
   chown -R www-data:www-data /var/lib/nginx  &&\
   rm /etc/nginx/sites-available/default
 
 # Define mountable directories.
-VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/certs", "/var/log/nginx"]
+VOLUME ["/etc/nginx/conf.d/", "/etc/nginx/certs", "/var/log/nginx"]
 
 ENV TZ Asia/Shanghai
 
