@@ -12,15 +12,23 @@ RUN \
   add-apt-repository -y ppa:nginx/stable && \
   apt-get update && \
   apt-get install -y nginx && \
-  apt-get clean && \
-  sed -e 's@ndaemon *@ndaemon off@' && \
-  sed -e 's@access_log *@access_log off@' && \
-  sed -e 's@error_log *@error_log off@' && \
+  rm -rf /var/lib/apt/lists/* && \
+  echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
   chown -R www-data:www-data /var/lib/nginx  &&\
-  rm /etc/nginx/sites-available/default
+  rm -rf /etc/nginx/sites-enabled/default
+
+# Config
+# Set number of worker_processes to auto.
+# Close default log, you'll open it in your custom conf file.
+RUN sed \
+    -e 's@worker_processes .*@worker_processes auto;@' \
+    -e 's@access_log .*@access_log off;@' \
+    -e 's@error_log .*@error_log off;@' \
+    -i /etc/nginx/nginx.conf
+
 
 # Define mountable directories.
-VOLUME ["/etc/nginx/conf.d/", "/etc/nginx/certs", "/var/log/nginx"]
+VOLUME ["/etc/nginx/sites-enabled", "/etc/nginx/conf.d/", "/etc/nginx/certs", "/var/log/nginx"]
 
 ENV TZ Asia/Shanghai
 
@@ -31,5 +39,4 @@ WORKDIR /etc/nginx
 CMD ["nginx"]
 
 # Expose ports.
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443

@@ -7,7 +7,7 @@ Requires=docker.service
 TimeoutStartSec=0
 ExecStartPre=-/usr/bin/docker kill nginx
 ExecStartPre=-/usr/bin/docker rm nginx
-ExecStart=/usr/bin/docker run -p 80:80 -p 443:443 -v /home/core/conf/nginx:/etc/nginx/sites-enabled -v /home/core/app:/home/core/app -v /home/core/logs/nginx:/home/core/logs/nginx --name nginx nginx
+ExecStart=/usr/bin/docker run -p 80:80 -p 443:443 -v /home/core/conf/nginx:/etc/nginx/sites-enabled -v /home/core/apps:/home/core/apps -v /home/core/logs/nginx:/home/core/logs/nginx --name nginx nginx
 ExecStop=/usr/bin/docker stop nginx
 
 [Install]
