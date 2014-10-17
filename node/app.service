@@ -1,0 +1,15 @@
+[Unit]
+Description=App
+After=docker.service
+After=mongod.service
+Requires=docker.service,mysql.service,memcached.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill app
+ExecStartPre=-/usr/bin/docker rm app
+ExecStart=/usr/bin/docker run -v /home/core/apps/app:/home/core/apps/app  -p 172.17.42.1:3000:3000 --name app node
+ExecStop=/usr/bin/docker stop app
+
+[Install]
+WantedBy=multi-user.target

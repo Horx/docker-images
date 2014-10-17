@@ -1,0 +1,14 @@
+[Unit]
+Description=Memcached
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill memcached
+ExecStartPre=-/usr/bin/docker rm memcached
+ExecStart=/usr/bin/docker run -p 172.17.42.1:11211:11211 --name memcached memcached
+ExecStop=/usr/bin/docker stop mysql
+
+[Install]
+WantedBy=multi-user.target
