@@ -1,0 +1,10 @@
+{
+  "server":"1.1.1.1",
+  "port_password": {
+    "7001": "SOME_STRONG_PASSWORD",
+    "8001": "ANOTHER_STRONG_PASSWORD"
+  },
+  "local_port":1080,
+  "method": "aes-128-cfb",
+  "timeout":600
+}
