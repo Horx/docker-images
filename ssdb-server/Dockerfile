@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM horx/debian:latest
 MAINTAINER HanHor "hanhor.wu@gmail.com"
 
 # Set the env variable DEBIAN_FRONTEND to noninteractive

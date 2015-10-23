@@ -1,4 +1,4 @@
-FROM nginx:1.9.2
+FROM nginx:latest
 MAINTAINER HanHor "hanhor.wu@gmail.com"
 
 ENV TZ Asia/Shanghai
